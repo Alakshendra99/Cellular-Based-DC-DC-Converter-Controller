@@ -1,8 +1,11 @@
+/*HHHH Cellular DC DC Converter Controller HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 /*- Header-Files -*/
 #include <avr/io.h>
 #include <avr/pgmspace.h>
 #include <SoftwareSerial.h>
-
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*- Macros -*/
 #define FacoryRestTimer 5000
 #define DeveloperTimer 25000
 #define OKResponseTimer 1000
@@ -13,20 +16,21 @@
 #define ATRetry 2
 #define ReconnectTime 60000
 #define RelockTime 1200000
-#define BOOST 9                              // for UNO - ATMEGA 328  - Physical Pin 15
-#define BUCK 10                              // for UNO - ATMEGA 328  - Physical Pin 16
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 /*- Global-Variables-&-Constants -*/
 SoftwareSerial GPRS(2,3);
-const byte LED = 4;
-const byte NET = 5;
+const uint8_tLED = 4;
+const uint8_t NET = 5;
 char CDuty[3] = {'4','0','P'};
 char Duty[3] = {'4','0','P'};
+const uint8_t BOOST = 9;
+const uint8_t BUCK = 10;
 int TOP = 1600;
 int N = 0;
-float duty_cycle_val = 0.4;   // keep value more than 0.5 for Boost Opertaion and less than 0.5 for Buck Operation
-
-const byte PROGMEM ATCommands[] = {
+float duty_cycle_val = 0.4;
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*- AT-Commands -*/
+const char PROGMEM ATCommands[] = {
 /*-000-*/'A','T','+','C','I','P','S','H','U','T','\n','#',
 /*-012-*/'A','T','\n','#',
 /*-016-*/'A','T','+','P','I','N','?','\n','#',
@@ -405,7 +409,8 @@ class WorldWideWeb{
     }
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 }; WorldWideWeb Internet;
-
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
+/*HHHH Internet Of Things Function HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH*/
 /*- Connecting-The-Central-Server-To-Networks -*/
 void IOT::Connect(){
     /*- Connecting-To-GPRS-Network -*/
@@ -487,7 +492,7 @@ void setup() {
   Debug.Start();
   IoT.Connect();
 }
-
+/*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 void loop() {
   IoT.Smartdome();
 }
