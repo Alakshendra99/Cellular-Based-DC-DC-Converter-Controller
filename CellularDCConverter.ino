@@ -26,8 +26,7 @@ char Duty[3] = {'4','0','P'};
 const uint8_t BOOST = 9;
 const uint8_t BUCK = 10;
 int TOP = 1600;
-int N = 0;
-float duty_cycle_val = 0.4;
+float DutyCycle = 0.4;
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 /*- AT-Commands -*/
 const char PROGMEM ATCommands[] = {
@@ -147,7 +146,7 @@ void ToNumber(){
   }else if(LoL>0.99){
     LoL = 0.99;
   }
-  duty_cycle_val = LoL; 
+  DutyCycle = LoL; 
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
   /*- Starting-Debugging -*/
@@ -441,13 +440,13 @@ void IOT::CompareState(){
     Duty[0] = CDuty[0];
     Duty[1] = CDuty[1];
     Debug.ToNumber();
-    int OCR_val_edit = duty_cycle_val * TOP;
-    OCR1A = OCR_val_edit;
-    OCR1B = OCR_val_edit;
+    int OCRValue = DutyCycle * TOP;
+    OCR1A = OCRValue;
+    OCR1B = OCRValue;
   }
   Serial.print(CDuty[0]);Serial.print(CDuty[1]);Serial.print('\n');
   Serial.print(Duty[0]);Serial.print(Duty[1]);Serial.print('\n');
-  Serial.print(duty_cycle_val);Serial.print('\n');
+  Serial.print(DutyCycle);Serial.print('\n');
 }
 /*-------------------------------------------------------------------------------------------------------------------------------------------------------------*/
 void IOT::RadioListen(){
@@ -485,9 +484,9 @@ void setup() {
   TCCR1B |= (1 << WGM13) | (1 << CS10) | (1 << WGM12);
   TCCR1A |= (1 << COM1B0) | (1 << COM1B1);
   ICR1 = TOP;
-  int OCR_val_edit = duty_cycle_val * TOP;
-  OCR1A = OCR_val_edit;
-  OCR1B = OCR_val_edit;
+  int OCRValue = DutyCycle * TOP;
+  OCR1A = OCRValue;
+  OCR1B = OCRValue;
   
   Debug.Start();
   IoT.Connect();
